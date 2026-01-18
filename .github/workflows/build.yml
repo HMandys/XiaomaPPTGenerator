@@ -29,7 +29,23 @@ jobs:
       run: pip install pyinstaller -i https://pypi.tuna.tsinghua.edu.cn/simple
 
     - name: Build EXE
-      run: pyinstaller --clean main.spec
+      run: |
+        pyinstaller --clean ^
+          --onefile ^
+          --windowed ^
+          --name="试卷分析PPT生成器" ^
+          --hidden-import=PyQt5.QtCore ^
+          --hidden-import=PyQt5.QtGui ^
+          --hidden-import=PyQt5.QtWidgets ^
+          --hidden-import=pandas._libs.tslibs.base ^
+          --hidden-import=pandas._libs.tslibs.np_datetime ^
+          --hidden-import=pandas._libs.tslibs.nattype ^
+          --hidden-import=pandas._libs.tslibs.dtypes ^
+          --hidden-import=numpy ^
+          --hidden-import=fitz ^
+          --collect-all=pandas ^
+          --collect-all=numpy ^
+          main.py
 
     - name: Upload build artifacts
       uses: actions/upload-artifact@v4
